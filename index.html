@@ -205,6 +205,8 @@
       <a class="btn btn-secondary btn-sm" href="/leaderboard/">Leaderboard</a>
     </div>
 
+    <section class="board-embed" id="board-embed" aria-label="Global leaderboard"></section>
+
     <p style="margin-top: 32px; font-size: 13px; color: var(--text-muted); line-height: 1.7;">
       Steer with the arrow keys, WASD or a swipe. Every apple makes you one segment
       longer, the walls kill and so does your own tail. Hold space to move faster:
@@ -230,5 +232,10 @@
 
 <script src="/assets/arcade.js"></script>
 <script src="game.js"></script>
+<script>
+  Arcade.mountBoard(document.getElementById("board-embed"), {
+    game: "snake", title: "Global board", limit: 10, selfLink: false
+  });
+</script>
 </body>
 </html>
