@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Snake Online Free: Daily Seed Challenge | Maybaah's Arcade</title>
+  <meta name="description" content="Play Snake free in your browser: eat apples, grow long, do not hit the wall. A daily seed gives everyone the same apples, and every finished run is replay-verified for the global leaderboard." />
+  <meta name="author" content="Artem Kovtoniuk" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://maybaah.github.io/snake/" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="maybaah.github.io" />
+  <meta property="og:title" content="Snake | Daily Seed Challenge | Maybaah's Arcade" />
+  <meta property="og:description" content="Eat apples, grow long, do not hit the wall. Same apples for everyone each day, verified global leaderboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://maybaah.github.io/snake/" />
+  <meta property="og:image" content="https://maybaah.github.io/assets/og.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Snake | Daily Seed Challenge | Maybaah's Arcade" />
+  <meta name="twitter:description" content="Eat apples, grow long, do not hit the wall. Same apples for everyone each day, verified global leaderboard." />
+  <meta name="twitter:image" content="https://maybaah.github.io/assets/og.png" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/site.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Snake | Maybaah's Arcade",
+    "url": "https://maybaah.github.io/snake/",
+    "description": "Free browser Snake with a daily seed challenge: everyone gets the same apple sequence each day. Runs are replay-verified for a global leaderboard.",
+    "genre": "Arcade game",
+    "gamePlatform": "Web browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "author": { "@type": "Person", "name": "Artem Kovtoniuk" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://maybaah.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Arcade", "item": "https://maybaah.github.io/arcade/" },
+      { "@type": "ListItem", "position": 3, "name": "Snake", "item": "https://maybaah.github.io/snake/" }
+    ]
+  }
+  </script>
+
+  <style>
+    .game-wrap { max-width: 520px; margin-inline: auto; padding-inline: 24px; }
+    .game-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+
+    .score-row { display: flex; gap: 10px; }
+    .score-box {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 16px; text-align: center; min-width: 88px;
+    }
+    .score-box label {
+      display: block; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--text-muted);
+    }
+    .score-box span { font-family: var(--font-mono); font-size: 20px; font-weight: 600; }
+
+    .modes { display: flex; gap: 6px; margin-top: 18px; }
+    .mode-pill {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 999px;
+      color: var(--text-secondary); font-family: var(--font-mono); font-size: 11px;
+      padding: 6px 14px; cursor: pointer;
+    }
+    .mode-pill[aria-pressed="true"] { background: var(--bg-elevated); border-color: var(--border-focus); color: var(--text-primary); }
+
+    .board-frame {
+      position: relative; margin: 16px auto 0;
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 8px; touch-action: none;
+    }
+    #board { display: block; width: 100%; height: auto; border-radius: 8px; }
+
+    #overlay {
+      position: absolute; inset: 0; z-index: 5;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+      background: rgba(10, 10, 10, 0.82); border-radius: var(--radius-lg);
+      backdrop-filter: blur(2px); text-align: center; padding: 20px;
+    }
+    #overlay.show { display: flex; }
+    #overlay h2 { font-family: var(--font-mono); font-size: 20px; }
+    #overlay p { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+    .statusline { display: flex; gap: 16px; margin-top: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); flex-wrap: wrap; }
+    .statusline b { color: var(--text-secondary); font-weight: 500; }
+    .toolbar { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+
+    .touch-controls { display: none; margin-top: 20px; align-items: center; justify-content: center; gap: 24px; }
+    #dpad { display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(3, 48px); gap: 6px; }
+    .touch-controls button {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text-secondary); font-family: var(--font-mono); font-size: 16px;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+    }
+    .touch-controls button:active { background: var(--bg-elevated); color: var(--text-primary); }
+    #btn-boost { width: 72px; height: 72px; border-radius: 999px; font-size: 11px; }
+    /* no keyboard to hold, and the pad below carries its own boost button */
+    @media (pointer: coarse) {
+      .touch-controls { display: flex; }
+      .kbd-hint { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+<nav class="site-nav" aria-label="Main">
+  <div class="container">
+    <a class="wordmark" href="/">maybaah<span class="tld">.github.io</span></a>
+    <div class="nav-links">
+      <a href="/arcade/">← Arcade</a>
+      <a href="/leaderboard/">Leaderboard</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="game-wrap">
+    <div class="game-head">
+      <div>
+        <p class="eyebrow">Cabinet 05</p>
+        <h1 style="font-size: 28px; margin-top: 6px;">Snake</h1>
+      </div>
+      <div class="score-row">
+        <div class="score-box">
+          <label>apples</label>
+          <span id="s-apples">0</span>
+        </div>
+        <div class="score-box">
+          <label>best</label>
+          <span id="s-best">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modes" id="modes" role="group" aria-label="Mode">
+      <button class="mode-pill" data-mode="classic" aria-pressed="true">Classic</button>
+      <button class="mode-pill" data-mode="daily" aria-pressed="false">Daily seed</button>
+    </div>
+
+    <div class="statusline">
+      <span>steps <b id="s-steps">0</b></span>
+      <span>route <b id="s-route">0</b></span>
+      <span>length <b id="s-len">3</b></span>
+      <span>seed <b id="s-seed">-</b></span>
+      <span class="kbd-hint">space to boost</span>
+    </div>
+
+    <div class="board-frame">
+      <canvas id="board" width="600" height="600" aria-label="Snake board"></canvas>
+      <div id="overlay" role="status" aria-live="polite">
+        <h2 id="ov-title">classic</h2>
+        <p id="ov-sub"></p>
+        <button class="btn btn-primary btn-sm" id="ov-again">Start</button>
+      </div>
+    </div>
+
+    <div class="touch-controls">
+      <div id="dpad">
+        <span></span>
+        <button data-dir="u" aria-label="Up">↑</button>
+        <span></span>
+        <button data-dir="l" aria-label="Left">←</button>
+        <span></span>
+        <button data-dir="r" aria-label="Right">→</button>
+        <span></span>
+        <button data-dir="d" aria-label="Down">↓</button>
+        <span></span>
+      </div>
+      <button id="btn-boost" aria-label="Speed up">boost</button>
+    </div>
+
+    <div id="submit-run" style="display: none; margin-top: 20px; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <input id="run-name" maxlength="16" placeholder="your name" autocomplete="nickname" spellcheck="false"
+             style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px;
+                    color: var(--text-primary); font-family: var(--font-mono); font-size: 13px;
+                    padding: 7px 12px; width: 150px;" />
+      <button class="btn btn-primary btn-sm" id="btn-submit-run">Submit run</button>
+      <span class="mono" id="run-status" style="font-size: 11px; color: var(--text-secondary);"></span>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-secondary btn-sm" id="btn-new">New game</button>
+      <a class="btn btn-secondary btn-sm" href="/leaderboard/">Leaderboard</a>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 13px; color: var(--text-muted); line-height: 1.7;">
+      Steer with the arrow keys, WASD or a swipe. Every apple makes you one segment
+      longer, the walls kill and so does your own tail. Hold space to move faster:
+      it costs you reaction time but never changes your score, because the board
+      ranks apples first and then the number of cells you travelled to get them.
+      Daily seed mode hands everyone the same apple sequence, so the run is a
+      straight skill comparison. Each run is replayed server-side before it reaches
+      the <a href="/leaderboard/" style="text-decoration: underline;">global leaderboard</a>.
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Artem Kovtoniuk</span>
+    <div class="links">
+      <a href="/arcade/">arcade</a>
+      <a href="/leaderboard/">leaderboard</a>
+      <a href="https://github.com/Maybaah/snake">source</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/arcade.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
