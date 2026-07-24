@@ -100,8 +100,10 @@
       backdrop-filter: blur(2px); text-align: center; padding: 20px;
     }
     #overlay.show { display: flex; }
-    #overlay h2 { font-family: var(--font-mono); font-size: 20px; }
-    #overlay p { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    /* the scrim is its own dark, so the type on it names its own colour rather
+       than following the site theme underneath */
+    #overlay h2 { font-family: var(--font-mono); font-size: 20px; color: #f0f0f0; }
+    #overlay p { font-family: var(--font-mono); font-size: 12px; color: #a8a8a8; line-height: 1.6; }
 
     .statusline { display: flex; gap: 16px; margin-top: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); flex-wrap: wrap; }
     .statusline b { color: var(--text-secondary); font-weight: 500; }
