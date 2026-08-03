@@ -9,7 +9,7 @@
   <meta name="author" content="Artem Kovtoniuk" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="https://maybaah.github.io/snake/" />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#09090b" />
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="maybaah.github.io" />
@@ -32,7 +32,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/site.css" />
 
@@ -69,19 +69,8 @@
       background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
       padding: 8px; touch-action: none;
     }
-    #board { display: block; width: 100%; height: auto; border-radius: 8px; }
+    #board { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
 
-    #overlay {
-      position: absolute; inset: 0; z-index: 5;
-      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-      background: rgba(10, 10, 10, 0.82); border-radius: var(--radius-lg);
-      backdrop-filter: blur(2px); text-align: center; padding: 20px;
-    }
-    #overlay.show { display: flex; }
-    /* the scrim is its own dark, so the type on it names its own colour rather
-       than following the site theme underneath */
-    #overlay h2 { font-family: var(--font-mono); font-size: 20px; color: #f0f0f0; }
-    #overlay p { font-family: var(--font-mono); font-size: 12px; color: #a8a8a8; line-height: 1.6; }
 
     /* the pad, its glyphs and when it shows all live in /assets/site.css; the
        boost key is snake's own, and it rides the same button styling */
@@ -145,9 +134,11 @@
     <div class="board-frame">
       <canvas id="board" width="600" height="600" aria-label="Snake board"></canvas>
       <div id="overlay" role="status" aria-live="polite">
-        <h2 id="ov-title">classic</h2>
-        <p id="ov-sub"></p>
-        <button class="btn btn-primary btn-sm" id="ov-again">Start</button>
+        <div class="overlay-panel">
+          <h2 id="ov-title">classic</h2>
+          <p id="ov-sub"></p>
+          <button class="btn btn-primary btn-sm" id="ov-again">Start</button>
+        </div>
       </div>
     </div>
 
@@ -180,7 +171,7 @@
 
     <section class="board-embed" id="board-embed" aria-label="Global leaderboard"></section>
 
-    <p style="margin-top: 32px; font-size: 13px; color: var(--text-muted); line-height: 1.7;">
+    <p style="margin-top: 32px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
       Steer with the arrow keys, WASD or a swipe. Every apple makes you one segment
       longer, the walls kill and so does your own tail. Hold space to move faster:
       it costs you reaction time but never changes your score, because the board
