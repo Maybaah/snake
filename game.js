@@ -337,18 +337,18 @@
   }
 
   var ENDINGS = {
-    wall: "you hit the wall",
-    self: "you ran into yourself",
-    full: "perfect run, the board is full",
-    cap: "tick limit reached"
+    wall: "You hit the wall",
+    self: "You ran into yourself",
+    full: "Perfect run, the board is full",
+    cap: "Tick limit reached"
   };
 
   function endRun(reason) {
     over = true;
     running = false;
     clearTimeout(timer);
-    showOverlay(ENDINGS[reason] || "run over",
-      st.apples + " apples, " + st.route + " steps to the last one. ranked on those.", "New game");
+    showOverlay(ENDINGS[reason] || "Run over",
+      st.apples + " apples, " + st.route + " steps to the last one. Ranked on those.", "New game");
     Arcade.addScore("snake", { apples: st.apples, steps: st.route, total: st.steps, mode: mode });
     if (st.apples > storedBest()) elBest.textContent = st.apples;
     if (reason !== "cap") showSubmitUI();
@@ -404,10 +404,10 @@
     clearTimeout(timer);
     document.getElementById("submit-run").style.display = "none";
     elSeed.textContent = mode === "daily" ? "day " + day : "#" + seed;
-    showOverlay(mode === "daily" ? "daily seed" : "classic",
+    showOverlay(mode === "daily" ? "Daily seed" : "Classic",
       mode === "daily"
-        ? "same apples for everyone today. arrows, WASD or swipe to start."
-        : "arrows, WASD or swipe to start.",
+        ? "Same apples for everyone today. Arrows, WASD or swipe to start."
+        : "Arrows, WASD or swipe to start",
       "Start");
     draw();
     refreshStats();
@@ -464,7 +464,7 @@
     running = false;
     boosting = false;
     clearTimeout(timer);
-    showOverlay("paused", "you switched away. the run is exactly where you left it.", "Resume");
+    showOverlay("Paused", "You switched away. The run is exactly where you left it.", "Resume");
   });
 
   var touchX = null, touchY = null;
